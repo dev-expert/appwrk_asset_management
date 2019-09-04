@@ -33,10 +33,12 @@ function NavBar() {
             </Button>
           </Link>
 
-          <Button variant="contained" color="secondary" {...bindTrigger(popupState)}>
-            Asset
-          </Button>
-        
+          <Link to="/asset" style={{ textDecoration: 'none' }}>
+            <Button variant="contained" color="secondary" {...bindTrigger(popupState)}>
+              Asset
+            </Button>
+          </Link>
+
         </React.Fragment>
       )}
     </PopupState>

@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "nodemonConfig": {
-    "ignore": ["index/*"],
+    "ignore": [
+      "index/*"
+    ],
     "delay": "2500"
   },
-
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",

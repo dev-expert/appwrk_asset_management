@@ -49,7 +49,6 @@ class AddNewCategory extends React.Component
             },
             refetchQueries:[{query:GET_Components}]
         });
-        debugger
         this.setState({
             componentName:"",
             catValue:"",
