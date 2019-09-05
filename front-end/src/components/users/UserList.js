@@ -8,29 +8,31 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { graphql } from 'react-apollo';
-import AddNewComponent from './AddNewComponent';
-import {GET_Components} from '../../queries/queries'
+import {GET_Users} from '../../queries/queries'
+import AddNewUser from '../users/AddNewUser';
 
 class ComponentList extends React.Component
 {
-  
-    displayComponent=()=>
+    displayUsers=()=>
     {
         var data=this.props.data;
         if(data.loading)
         {
-            return(<div>Loading Component List....</div>)
+            return(<div>Loading Users List....</div>)
         }
         else
         {
-            return data.components && data.components.map((row, index) => (
+            return data.users && data.users.map((row, index) => (
                 <TableRow key={row._id}>
                   <TableCell>{index+1}</TableCell>
                   <TableCell component="th" scope="row">
-                    {row.componentName}
+                    {row.empId}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {row.category.categoryName}
+                    {row.fullName}
+                  </TableCell>
+                  <TableCell component="th" scope="row">
+                    {row.designation}
                   </TableCell>
                   <TableCell align="right">{row.createdBy}</TableCell>
                   <TableCell align="right">{row.modifiedBy}</TableCell>
@@ -53,17 +55,18 @@ class ComponentList extends React.Component
     render(){
         return(
             <>
-            <AddNewComponent/>
+           <AddNewUser/>
             <Typography component="h5" variant="h5" color="error">
-                Component List
+                Users List
             </Typography>
           <Paper>
             <Table>
               <TableHead>
                 <TableRow>
                   <TableCell>Serial No.</TableCell>
-                  <TableCell>Component Name</TableCell>
-                  <TableCell>Category Name</TableCell>
+                  <TableCell>Employee ID</TableCell>
+                  <TableCell>Full Name</TableCell>
+                  <TableCell>Designation</TableCell>
                   <TableCell align="right">Created By</TableCell>
                   <TableCell align="right">Modified By</TableCell>
                   <TableCell align="right">Created Date</TableCell>
@@ -72,7 +75,7 @@ class ComponentList extends React.Component
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.displayComponent()}
+                {this.displayUsers()}
               </TableBody>
             </Table>
             
@@ -83,7 +86,7 @@ class ComponentList extends React.Component
         );
     }
 }
-export default graphql(GET_Components)(ComponentList); 
+export default graphql(GET_Users)(ComponentList); 
  
      
 

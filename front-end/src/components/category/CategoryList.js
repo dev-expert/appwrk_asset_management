@@ -7,16 +7,61 @@ import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import { Query } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import AddNewCategory from './AddNewCategory';
-import {GET_Categories} from '../../queries/queries';
+import {GET_Categories,removeCategory} from '../../queries/queries';
+import * as compose from 'lodash.flowright';
 
-
-export default () => (
-  
-  <Query query={GET_Categories} >
-    {({ loading, data,refetch }) => !loading && (
-     
+class CategoryList extends React.Component
+{
+  constructor(props)
+  {
+      super(props);
+      this.state={
+        categoryId:""
+      }
+  }
+  displayCategory=()=>{
+    
+        var data=this.props.GET_Categories;
+        if(data.loading)
+        {
+            return(<div>Loading Category List....</div>)
+        }
+        else
+        {
+              return data.categories && data.categories.map((row, index) => (
+              
+            <TableRow key={row._id}>
+              <TableCell>{index+1}</TableCell>
+              <TableCell component="th" scope="row">
+                {row.categoryName}
+              </TableCell>
+              <TableCell align="right">{row.createdBy}</TableCell>
+              <TableCell align="right">{row.modifiedBy}</TableCell>
+              <TableCell align="right">{row.createdDate}</TableCell>
+              <TableCell align="right">{row.modifiedDate}</TableCell>
+              <TableCell align="right">
+                  <Button
+                        
+                        type="submit"
+                        variant="outlined"
+                        color="secondary"
+                        onClick={(e)=>{this.delCategory(e)}}
+                        >
+                      Remove Category
+                  </Button>
+                </TableCell>
+            </TableRow>
+          ))
+      }
+  }
+  delCategory=(e)=>
+  {
+    
+  }
+  render(){
+    return (
       <>
       <AddNewCategory/>
       <Typography component="h5" variant="h5" color="error">
@@ -36,36 +81,21 @@ export default () => (
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.categories && data.categories.map((row, index) => (
-            <TableRow key={row._id}>
-              <TableCell>{index+1}</TableCell>
-              <TableCell component="th" scope="row">
-                {row.categoryName}
-              </TableCell>
-              <TableCell align="right">{row.createdBy}</TableCell>
-              <TableCell align="right">{row.modifiedBy}</TableCell>
-              <TableCell align="right">{row.createdDate}</TableCell>
-              <TableCell align="right">{row.modifiedDate}</TableCell>
-              <TableCell align="right">
-                  <Button
-                        type="submit"
-                        variant="outlined"
-                        color="secondary"
-                        onClick={(e)=>{this.removeCategory(e)}}
-                        >
-                       Remove Category
-                  </Button>
-                </TableCell>
-            </TableRow>
-          ))}
+          {this.displayCategory()}
         </TableBody>
       </Table>
       
     </Paper>
      
       </>
-    )}
-  </Query>
-);
+    )
+  }
+      
+}
+
+export default compose(
+  graphql(GET_Categories,{name:"GET_Categories"}),
+  graphql(removeCategory,{name:"removeCategory"})
+)(CategoryList)
 
 

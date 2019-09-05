@@ -2,7 +2,7 @@
 const Mongoose = require("mongoose");
 
 const userModel = Mongoose.model("users",{
-    empId:Mongoose.Schema.Types.ObjectId,
+    empId:String,
     fullName:String,
     designation: String,
     createdBy:String,

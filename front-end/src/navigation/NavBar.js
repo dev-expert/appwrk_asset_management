@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import PopupState, { bindTrigger } from 'material-ui-popup-state';
 import {Link} from 'react-router-dom';
 function NavBar() {
+   
   return (
     <PopupState variant="popover" popupId="demo-popup-menu">
       {popupState => (
@@ -39,10 +40,23 @@ function NavBar() {
             </Button>
           </Link>
 
+          <Link to="/users" style={{ textDecoration: 'none' }}>
+            <Button variant="contained" color="secondary" {...bindTrigger(popupState)}>
+              Users
+            </Button>
+          </Link>
+
+          <Link to="/asset-status" style={{ textDecoration: 'none' }}>
+            <Button variant="contained" color="secondary" {...bindTrigger(popupState)}>
+              Asset Status
+            </Button>
+          </Link>
+
         </React.Fragment>
       )}
     </PopupState>
   );
+        
 }
 
 export default NavBar;

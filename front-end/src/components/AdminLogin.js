@@ -1,62 +1,70 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import TextField from '@material-ui/core/TextField';
+import {graphql} from 'react-apollo';
+import {auth_Admin} from '../queries/queries';
+import * as compose from 'lodash.flowright';
+import jwt from 'jsonwebtoken';
 
+class AdminLogin extends React.Component {
 
-const useStyles = makeStyles(theme => ({
-  '@global': {
-    body: {
-      backgroundColor: theme.palette.common.white,
-    },
-  },
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+    constructor(props)
+    {
+      super(props);
+      this.state={
+        userName:"",
+        password:""
+      }
+    }
+    authUser = (e) =>{
+      e.preventDefault();
+      this.props.auth_Admin({
+        variables:{
+          userName:this.state.userName,
+          password:this.state.password
+        }
+      }).then(res=>{
+               const verifyToken=jwt.verify(res.data.admin.token,'secretkey');
+               window.localStorage.setItem('adminId', verifyToken.adminId);
+      })
 
-export default function AdminLogin() {
-  const classes = useStyles();
-
+    }
+  render(){
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+      <div>
+        
         <Typography component="h1" variant="h5" color="error">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form onSubmit={this.authUser.bind(this)}>
         
-          
-        
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label="User Name"
+            autoFocus
+            value={this.state.userName}
+            onChange={(e)=>{this.setState({userName:e.target.value})}}
+            /> 
 
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label="Password"
+            autoFocus
+            value={this.state.password}
+            onChange={(e)=>{this.setState({password:e.target.value})}}
+            /> 
+        
           <Button
             type="submit"
             fullWidth
@@ -72,4 +80,9 @@ export default function AdminLogin() {
       </div>
     </Container>
   );
+  }
 }
+
+export default compose(
+  graphql(auth_Admin,{name:"auth_Admin"})
+)(AdminLogin)

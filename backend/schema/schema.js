@@ -3,7 +3,10 @@ const {GraphQLObjectType,GraphQLString, GraphQLSchema, GraphQLID,GraphQLList,Gra
 const Category=require("../models/categoryModel");
 const Component=require("../models/componentModel");
 const Asset=require("../models/assetModel");
-
+const User = require("../models/userModel");
+const Admin = require("../models/adminModel");
+const bcrypt = require('bcrypt');
+const jwt=require('jsonwebtoken');
 const ComponentType=new GraphQLObjectType({
     name:'Component',
     fields:()=>({
@@ -75,6 +78,29 @@ const AssetType= new GraphQLObjectType({
     })
 });
 
+const UserType=new GraphQLObjectType({
+    name:'User',
+    fields:()=>({
+        _id:{type:GraphQLID},
+        empId:{type:GraphQLString},
+        fullName:{type: GraphQLString},
+        designation:{type: GraphQLString},
+        createdBy:{type: GraphQLString},
+        modifiedBy:{type: GraphQLString},
+        createdDate:{type: GraphQLString},
+        modifiedDate:{type: GraphQLString}
+    })
+})
+
+const adminType=new GraphQLObjectType({
+    name:'Admin',
+    fields:()=>({
+        _id:{type:GraphQLID},
+        userName:{type:GraphQLString},
+        token:{type:GraphQLString}
+    })
+})
+
 const RootQuery=new GraphQLObjectType({
     name:'RootQueryType',
     fields:()=>({
@@ -110,11 +136,20 @@ const RootQuery=new GraphQLObjectType({
         },
         assets:{
             type:GraphQLList(AssetType),
-            resolve()
+            resolve(parent,args)
             {
                 return Asset.find({});
             }
+        },
+        users:{
+            type:GraphQLList(UserType),
+            resolve(args)
+            {
+                return User.find({});
+            }
         }
+        
+       
 
     })
 })
@@ -166,6 +201,22 @@ const Mutation = new GraphQLObjectType({
                 return component.save();
             }
         },
+        admin:{
+            type:adminType,
+            args:{userName:{type:GraphQLString},password:{type:GraphQLString}},
+            resolve(parent,args)
+            {
+                return Admin.findOne({userName:args.userName}).then((res)=>{
+                    if(!!res && !!res._id){
+                      let token=jwt.sign({adminId:res._id},'secretkey')
+                     return {userName:res.userName,_id:res._id,token:token}
+                    }
+                    return null;
+               });
+               
+           
+            }
+        },
         addAsset:{
             type:AssetType,
             args:{
@@ -189,6 +240,50 @@ const Mutation = new GraphQLObjectType({
             {
                 const asset=new Asset(args);
                 return asset.save();
+            }
+        },
+        addUser:{
+            type:UserType,
+            args:{
+                empId:{type:GraphQLString},
+                fullName:{type: GraphQLString},
+                designation:{type: GraphQLString},
+                createdBy:{type: GraphQLString},
+                modifiedBy:{type: GraphQLString},
+                createdDate:{type: GraphQLString},
+                modifiedDate:{type: GraphQLString}
+            },
+            resolve(parent,args)
+            {
+                const user=new User(args);
+                return user.save();
+            }
+        },
+        addAdmin:{
+            type:adminType,
+            args:{
+                userName:{type:GraphQLString},
+                password:{type: GraphQLString},
+            },
+            resolve(parent,args)
+            {
+                return bcrypt.hash(args.password,12).then(res=>{
+                    const admin=new Admin({
+                    userName:args.userName,
+                    password:res
+                  });
+                  return admin.save();
+                });
+            }
+        },
+        deleteCategory:{
+            type:CategoryType,
+            args:{
+                catId:{type:GraphQLID},
+            },
+            resolve(parent,args)
+            {
+                 return Category.remove({_id:args.catId});
             }
         }
 
