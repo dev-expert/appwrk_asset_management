@@ -61,7 +61,7 @@ const AssetType= new GraphQLObjectType({
         color:{type: GraphQLString},
         purchaseDate:{type: GraphQLString},
         purchaseCost:{type:GraphQLInt},
-        owner:{type: GraphQLString},
+        owner:{type: GraphQLID},
         status:{type: GraphQLString},
         createdBy:{type: GraphQLString},
         modifiedBy:{type: GraphQLString},
@@ -73,6 +73,13 @@ const AssetType= new GraphQLObjectType({
             resolve(parent,args)
             {
                 return Component.findById(parent.componentId);
+            }
+        },
+        user:{
+            type: UserType,
+            resolve(parent,args)
+            {
+                return User.findById(parent.owner);
             }
         }
     })
@@ -284,6 +291,49 @@ const Mutation = new GraphQLObjectType({
             resolve(parent,args)
             {
                  return Category.remove({_id:args.catId});
+            }
+        },
+        deleteComponent:{
+            type:ComponentType,
+            args:{
+                componentId:{type:GraphQLID},
+            },
+            resolve(parent,args)
+            {
+                 return Component.remove({_id:args.componentId});
+            }
+        },
+        deleteAsset:{
+            type:AssetType,
+            args:{
+                assetId:{type:GraphQLID},
+            },
+            resolve(parent,args)
+            {
+                 return Asset.remove({_id:args.assetId});
+            }
+        },
+        deleteUser:{
+            type:UserType,
+            args:{
+                userId:{type:GraphQLID},
+            },
+            resolve(parent,args)
+            {
+                 return User.remove({_id:args.userId});
+            }
+        },
+        updateAssetStatus:{
+            type:AssetType,
+            args:{
+                assetId:{type:GraphQLID},
+                newStatus:{type:GraphQLString},
+                owner:{type:GraphQLString}
+
+            },
+            resolve(parent,args)
+            {
+                 return Asset.updateOne({_id:args.assetId},{$set:{status:args.newStatus,owner:args.owner}});
             }
         }
 

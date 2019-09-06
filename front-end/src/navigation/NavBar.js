@@ -34,23 +34,18 @@ function NavBar() {
             </Button>
           </Link>
 
-          <Link to="/asset" style={{ textDecoration: 'none' }}>
-            <Button variant="contained" color="secondary" {...bindTrigger(popupState)}>
-              Asset
-            </Button>
-          </Link>
-
           <Link to="/users" style={{ textDecoration: 'none' }}>
             <Button variant="contained" color="secondary" {...bindTrigger(popupState)}>
               Users
             </Button>
           </Link>
 
-          <Link to="/asset-status" style={{ textDecoration: 'none' }}>
+          <Link to="/asset" style={{ textDecoration: 'none' }}>
             <Button variant="contained" color="secondary" {...bindTrigger(popupState)}>
-              Asset Status
+              Asset
             </Button>
           </Link>
+
 
         </React.Fragment>
       )}

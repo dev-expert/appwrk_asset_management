@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Select from '@material-ui/core/Select';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
-import {GET_Components,addAssetMutation,GET_Assets} from '../../queries/queries';
+import {GET_Components,addAssetMutation,GET_Assets,GET_Users} from '../../queries/queries';
 import * as compose from 'lodash.flowright';
 import MenuItem from '@material-ui/core/MenuItem';
 import {graphql} from 'react-apollo';
@@ -34,6 +34,7 @@ class AddNewAsset extends React.Component{
             modifiedDate:date,
             message:"",
             componentId:"",
+            
         }
     }
     components()
@@ -79,7 +80,29 @@ class AddNewAsset extends React.Component{
             refetchQueries:[{query:GET_Assets}]
         });
     }
-
+    displayUsers=()=>
+    {
+        var data= this.props.GET_Users;
+        if(data.loading)
+        {
+            return(<div>Loading categories....</div>)
+        }
+        else
+        {
+            return  data.users && data.users.map((row, index) => (
+                         <MenuItem key={row._id} value={row._id}>{row.empId} / {row.fullName}</MenuItem>
+            ))
+                    
+                   
+                   
+        }
+        
+    } 
+    changeSelectUser=(e)=>{
+        this.setState({
+          owner:e.target.value
+        })
+    }
     render(){
       return(
         
@@ -198,15 +221,14 @@ class AddNewAsset extends React.Component{
                 />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    label="Owner"
-                    name="owner"
-                    value={this.state.owner}
-                    onChange={(e)=>{this.setState({owner:e.target.value})}}
-                />
+                    <Select
+                          value={this.state.owner}
+                          fullWidth
+                          required
+                          input={<OutlinedInput onChange={(e)=>{this.changeSelectUser(e)}} name="userName" id="outlined-age-simple" />}
+                          >
+                            {this.displayUsers()}
+                    </Select>
                 </Grid>
                 <Grid item xs={12} sm={4}>
                 <TextField
@@ -244,5 +266,6 @@ class AddNewAsset extends React.Component{
 
 export default compose(
     graphql(GET_Components,{name:"GET_Components"}),
-    graphql(addAssetMutation,{name:"addAssetMutation"})
+    graphql(addAssetMutation,{name:"addAssetMutation"}),
+    graphql(GET_Users,{name:"GET_Users"})
 )(AddNewAsset)

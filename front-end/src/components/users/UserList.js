@@ -8,14 +8,15 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { graphql } from 'react-apollo';
-import {GET_Users} from '../../queries/queries'
+import {GET_Users,removeUser} from '../../queries/queries'
 import AddNewUser from '../users/AddNewUser';
+import * as compose from 'lodash.flowright';
 
 class ComponentList extends React.Component
 {
     displayUsers=()=>
     {
-        var data=this.props.data;
+        var data=this.props.GET_Users;
         if(data.loading)
         {
             return(<div>Loading Users List....</div>)
@@ -43,14 +44,23 @@ class ComponentList extends React.Component
                             type="submit"
                             variant="outlined"
                             color="secondary"
-                            onClick={(e)=>{this.removeCategory(e)}}
+                            onClick={(e)=>{this.removeUser(e,row._id)}}
                             >
-                           Remove Component
+                           Remove User
                       </Button>
                     </TableCell>
                 </TableRow>
               ))
         }
+    }
+    removeUser=(e,userId)=>
+    {
+      this.props.removeUser({
+        variables:{
+          userId:userId,
+        },
+        refetchQueries:[{query:GET_Users}]
+      });
     }
     render(){
         return(
@@ -86,8 +96,11 @@ class ComponentList extends React.Component
         );
     }
 }
-export default graphql(GET_Users)(ComponentList); 
- 
+export default compose(
+  graphql(GET_Users,{name:"GET_Users"}),
+  graphql(removeUser,{name:"removeUser"})
+)(ComponentList)
+  
      
 
 

@@ -65,6 +65,17 @@ const GET_Assets=gql`
                         createdBy
                     }
                 }
+                user
+                {
+                    _id
+                    empId
+                    fullName
+                    designation
+                    createdBy
+                    modifiedBy
+                    createdDate
+                    modifiedDate
+                }
             }
         }
 `;
@@ -142,9 +153,9 @@ const addAssetMutation = gql`
             createdDate:$createdDate,
             modifiedDate:$modifiedDate,
             componentId:$componentId)
-        {
-            assetName
-        }
+            {
+                assetName
+            }
     }
 `;
 
@@ -158,4 +169,46 @@ const removeCategory = gql`
     }
 `;
 
-export {GET_Categories,GET_Components,addCategoryMutation,addComponentMutation,GET_Assets,auth_Admin,addAssetMutation,GET_Users,addUserMutation,removeCategory}
+const removeComponent = gql`
+    mutation($componentId:ID!)
+    {
+        deleteComponent(componentId:$componentId)
+        {
+            _id
+        }
+    }
+`;
+
+const removeAsset = gql`
+    mutation($assetId:ID!)
+    {
+        deleteAsset(assetId:$assetId)
+        {
+            _id
+        }
+    }
+`;
+
+const removeUser = gql`
+    mutation($userId:ID!)
+    {
+        deleteUser(userId:$userId)
+        {
+            _id
+        }
+    }
+`;
+
+const updateAssetStatus = gql`
+    mutation($assetId:ID!,$newStatus:String!,$owner:String!)
+    {
+        updateAssetStatus(assetId:$assetId,newStatus:$newStatus,owner:$owner)
+        {
+            _id
+            
+        }
+    }
+`;
+
+
+export {GET_Categories,GET_Components,addCategoryMutation,addComponentMutation,GET_Assets,auth_Admin,addAssetMutation,GET_Users,addUserMutation,removeCategory,removeComponent,removeAsset,removeUser,updateAssetStatus}

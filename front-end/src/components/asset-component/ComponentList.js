@@ -9,14 +9,15 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { graphql } from 'react-apollo';
 import AddNewComponent from './AddNewComponent';
-import {GET_Components} from '../../queries/queries'
+import {GET_Components,removeComponent} from '../../queries/queries'
+import * as compose from 'lodash.flowright';
 
 class ComponentList extends React.Component
 {
   
     displayComponent=()=>
     {
-        var data=this.props.data;
+        var data=this.props.GET_Components;
         if(data.loading)
         {
             return(<div>Loading Component List....</div>)
@@ -41,7 +42,7 @@ class ComponentList extends React.Component
                             type="submit"
                             variant="outlined"
                             color="secondary"
-                            onClick={(e)=>{this.removeCategory(e)}}
+                            onClick={(e)=>{this.removeComponent(e,row._id)}}
                             >
                            Remove Component
                       </Button>
@@ -49,6 +50,14 @@ class ComponentList extends React.Component
                 </TableRow>
               ))
         }
+    }
+    removeComponent=(e,compId)=>{
+        this.props.removeComponent({
+          variables:{
+            componentId:compId,
+          },
+          refetchQueries:[{query:GET_Components}]
+        });
     }
     render(){
         return(
@@ -83,7 +92,10 @@ class ComponentList extends React.Component
         );
     }
 }
-export default graphql(GET_Components)(ComponentList); 
+export default compose(
+  graphql(GET_Components,{name:"GET_Components"}),
+  graphql(removeComponent,{name:"removeComponent"})
+)(ComponentList)
  
      
 

@@ -6,7 +6,6 @@ import {BrowserRouter,Route} from 'react-router-dom';
 import AssetList from './components/asset/AssetList';
 import UserList from './components/users/UserList';
 import AdminLogin from "./components/AdminLogin";
-import AssetStatus from "./components/asset/AssetStatus";
 
 function App() {
   return (
@@ -18,7 +17,6 @@ function App() {
           <Route path="/component" component={ComponentList}/>
           <Route path="/asset" component={AssetList}/>
           <Route path="/users" component={UserList}/>
-          <Route path="/asset-status" component={AssetStatus}/>
       </BrowserRouter>
       
    

@@ -10,7 +10,7 @@ const assetModel = Mongoose.model("assets",{
     color:String,
     purchaseDate:String,
     purchaseCost:Number,
-    owner:String,
+    owner:Mongoose.Schema.Types.ObjectId,
     status:String,
     createdBy:String,
     modifiedBy:String,

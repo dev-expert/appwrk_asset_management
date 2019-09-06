@@ -43,11 +43,10 @@ class CategoryList extends React.Component
               <TableCell align="right">{row.modifiedDate}</TableCell>
               <TableCell align="right">
                   <Button
-                        
                         type="submit"
                         variant="outlined"
                         color="secondary"
-                        onClick={(e)=>{this.delCategory(e)}}
+                        onClick={(e)=>{this.delCategory(e,row._id)}}
                         >
                       Remove Category
                   </Button>
@@ -56,9 +55,14 @@ class CategoryList extends React.Component
           ))
       }
   }
-  delCategory=(e)=>
+  delCategory=(e,delId)=>
   {
-    
+      this.props.removeCategory({
+        variables:{
+          catId:delId,
+        },
+        refetchQueries:[{query:GET_Categories}]
+      });
   }
   render(){
     return (
