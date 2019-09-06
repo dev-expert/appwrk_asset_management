@@ -9,16 +9,17 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { graphql } from 'react-apollo';
 import AddNewCategory from './AddNewCategory';
-import {GET_Categories,removeCategory} from '../../queries/queries';
+import {GET_Categories,removeCategory,updateCategory} from '../../queries/queries';
 import * as compose from 'lodash.flowright';
 
 class CategoryList extends React.Component
 {
-  constructor(props)
+  constructor()
   {
-      super(props);
+      super();
       this.state={
-        categoryId:""
+        categoryId: null,
+        categoryName: null
       }
   }
   displayCategory=()=>{
@@ -45,18 +46,46 @@ class CategoryList extends React.Component
                   <Button
                         type="submit"
                         variant="outlined"
+                        color="primary"
+                        onClick={(e)=>{this.editCategory(e,row._id,row.categoryName)}}
+                        >
+                      Edit
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  <Button
+                        type="submit"
+                        variant="outlined"
                         color="secondary"
                         onClick={(e)=>{this.delCategory(e,row._id)}}
                         >
-                      Remove Category
+                      Remove
                   </Button>
                 </TableCell>
             </TableRow>
           ))
       }
   }
+  editCategory=(e,catId,catName)=>{
+   this.setState({
+    categoryId: catId,
+    categoryName: catName
+   })
+    // this.setState({
+    //   categoryId:catId,
+    //   categoryName:catName
+    // })
+    // this.props.updateCategory({
+    //   variables:{
+    //     catId:catId,
+
+    //   },
+    //   refetchQueries:[{query:GET_Categories}]
+    // });
+  }
   delCategory=(e,delId)=>
   {
+    
       this.props.removeCategory({
         variables:{
           catId:delId,
@@ -64,10 +93,12 @@ class CategoryList extends React.Component
         refetchQueries:[{query:GET_Categories}]
       });
   }
+ 
   render(){
     return (
       <>
-      <AddNewCategory/>
+
+      <AddNewCategory category={this.state}/>
       <Typography component="h5" variant="h5" color="error">
         Category List
       </Typography>
@@ -81,7 +112,8 @@ class CategoryList extends React.Component
             <TableCell align="right">Modified By</TableCell>
             <TableCell align="right">Created Date</TableCell>
             <TableCell align="right">Modified Date</TableCell>
-            <TableCell align="right">Action</TableCell>
+            <TableCell align="right">Action1</TableCell>
+            <TableCell align="right">Action2</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -99,7 +131,8 @@ class CategoryList extends React.Component
 
 export default compose(
   graphql(GET_Categories,{name:"GET_Categories"}),
-  graphql(removeCategory,{name:"removeCategory"})
+  graphql(removeCategory,{name:"removeCategory"}),
+  graphql(updateCategory,{name:"updateCategory"})
 )(CategoryList)
 
 

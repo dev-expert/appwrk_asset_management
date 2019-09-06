@@ -210,5 +210,15 @@ const updateAssetStatus = gql`
     }
 `;
 
+const updateCategory = gql`
+    mutation($catId:ID!,$categoryName:String!)
+    {
+        updateCategory(catId:$catId,categoryName:$categoryName)
+        {
+            _id
+        }
+    }
+`;
 
-export {GET_Categories,GET_Components,addCategoryMutation,addComponentMutation,GET_Assets,auth_Admin,addAssetMutation,GET_Users,addUserMutation,removeCategory,removeComponent,removeAsset,removeUser,updateAssetStatus}
+
+export {GET_Categories,GET_Components,addCategoryMutation,addComponentMutation,GET_Assets,auth_Admin,addAssetMutation,GET_Users,addUserMutation,removeCategory,removeComponent,removeAsset,removeUser,updateAssetStatus,updateCategory}

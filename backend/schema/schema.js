@@ -335,6 +335,17 @@ const Mutation = new GraphQLObjectType({
             {
                  return Asset.updateOne({_id:args.assetId},{$set:{status:args.newStatus,owner:args.owner}});
             }
+        },
+        updateCategory:{
+            type:CategoryType,
+            args:{
+                catId:{type:GraphQLID},
+                categoryName:{type:GraphQLString}
+            },
+            resolve(parent,args)
+            {
+                return Category.updateOne({_id:args.catId},{$set:{categoryName:args.categoryName}});
+            }
         }
 
     }

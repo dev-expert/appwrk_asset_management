@@ -5,21 +5,24 @@ import Container from '@material-ui/core/Container';
 import {graphql} from 'react-apollo';
 import * as compose from 'lodash.flowright';
 import TextField from '@material-ui/core/TextField';
-import {addCategoryMutation, GET_Categories} from '../../queries/queries';
+import {addCategoryMutation, GET_Categories,updateCategory} from '../../queries/queries';
 
 
 class AddNewCategory extends React.Component
 {
-    constructor(props)
+    constructor()
     {
-        super(props);
+        super();
         this.state={
             categoryName:"",
             createdBy:"AppWrk",
             modifiedBy:"AppWrk",
             createdDate:"",
             modifiedDate:"",
-            message:""
+            message:"",
+            catId:"",
+            catButtonText:"Add Category",
+            isUpdate:false
         }
     } 
     changeCategory=(e)=>{
@@ -33,22 +36,44 @@ class AddNewCategory extends React.Component
     submitCategory=(e)=>
     {
         e.preventDefault();
-        this.props.addCategoryMutation({
-            variables:{
-                categoryName:this.state.categoryName,
-                createdBy:this.state.createdBy,
-                modifiedBy:this.state.modifiedBy,
-                createdDate:this.state.createdDate,
-                modifiedDate:this.state.modifiedDate
-            },
-            refetchQueries:[{query:GET_Categories}]
-        });
-        this.setState({
-            categoryName:"",
-            message:"New Category Submitted Successfully"
+        if(this.state.catId)
+        {
+            this.props.updateCategory({
+                   variables:{
+                     catId:this.state.catId,
+                     categoryName:this.state.categoryName
+            
+               },
+             refetchQueries:[{query:GET_Categories}]
+                 });
+            this.props.category.categoryId="";
+            this.props.category.categoryName=""; 
+            this.setState({
+                catId:"",
+                catButtonText:"Add Category",
+                categoryName:"",
+                isUpdate:true,
+                message:"Category Updated Successfully"
+            });
+        }
+        else
+        {
+            this.props.addCategoryMutation({
+                variables:{
+                    categoryName:this.state.categoryName,
+                    createdBy:this.state.createdBy,
+                    modifiedBy:this.state.modifiedBy,
+                    createdDate:this.state.createdDate,
+                    modifiedDate:this.state.modifiedDate
+                },
+                refetchQueries:[{query:GET_Categories}]
+            });
+            this.setState({
+                categoryName:"",
+                message:"New Category Submitted Successfully"
 
-        })
-       
+            })
+         }
 
     } 
     removeMessage=(e)=>{
@@ -56,10 +81,25 @@ class AddNewCategory extends React.Component
             message:""
         });
     } 
+    componentWillReceiveProps(newProps)
+    {
+      if(newProps.category.categoryId)
+      {
+        this.setState({
+           
+            categoryName:newProps.category.categoryName,
+            catId:newProps.category.categoryId,
+            catButtonText:"Update Category",
+            
+        })
+      }
+     
+    }
+
     render(){
+        
         return(
             <Container component="main" maxWidth="sm">
-                
                 <div>
                     <Typography component="h1" variant="h5" color="error">
                         Add New Category
@@ -85,7 +125,7 @@ class AddNewCategory extends React.Component
                         color="primary"
                         
                     >
-                       Add Category
+                      {this.state.catButtonText}
                     </Button>
 
                 </form>
@@ -97,5 +137,6 @@ class AddNewCategory extends React.Component
     }
 }
 export default compose(
-    graphql(addCategoryMutation,{name:"addCategoryMutation"})
+    graphql(addCategoryMutation,{name:"addCategoryMutation"}),
+    graphql(updateCategory,{name:"updateCategory"})
 )(AddNewCategory)
