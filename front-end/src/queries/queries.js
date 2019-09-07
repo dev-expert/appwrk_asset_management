@@ -26,6 +26,7 @@ const GET_Components = gql`
             modifiedBy
             createdDate
             modifiedDate
+            categoryId
             category
                 {
                     categoryName
@@ -219,6 +220,24 @@ const updateCategory = gql`
         }
     }
 `;
+const updateComponent = gql`
+    mutation($comId:ID!,$componentName:String!,$categoryId:ID!)
+    {
+        updateComponent(comId:$comId,componentName:$componentName,categoryId:$categoryId)
+        {
+            _id
+        }
+    }
+`;
+const updateUser = gql`
+    mutation($userId:ID!,$empId:String!,$fullName:String!,$designation:String!)
+    {
+        updateComponent(userId:$userId,empId:$empId,fullName:$fullName,designation:$designation)
+        {
+            _id
+        }
+    }
+`;
 
 
-export {GET_Categories,GET_Components,addCategoryMutation,addComponentMutation,GET_Assets,auth_Admin,addAssetMutation,GET_Users,addUserMutation,removeCategory,removeComponent,removeAsset,removeUser,updateAssetStatus,updateCategory}
+export {GET_Categories,GET_Components,addCategoryMutation,addComponentMutation,GET_Assets,auth_Admin,addAssetMutation,GET_Users,addUserMutation,removeCategory,removeComponent,removeAsset,removeUser,updateAssetStatus,updateCategory,updateComponent,updateUser}

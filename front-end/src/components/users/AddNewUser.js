@@ -85,7 +85,6 @@ class AddNewUser extends React.Component
                         required
                         fullWidth
                         label="Full Name"
-                        autoFocus
                         value={this.state.fullName}
                         onChange={(e)=>{this.setState({fullName:e.target.value})}}
                         onClick={(e)=>{this.removeMessage(e)}}
@@ -97,7 +96,6 @@ class AddNewUser extends React.Component
                         required
                         fullWidth
                         label="Designation"
-                        autoFocus
                         value={this.state.designation}
                         onChange={(e)=>{this.setState({designation:e.target.value})}}
                         onClick={(e)=>{this.removeMessage(e)}}

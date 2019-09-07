@@ -9,12 +9,20 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { graphql } from 'react-apollo';
 import AddNewComponent from './AddNewComponent';
-import {GET_Components,removeComponent} from '../../queries/queries'
+import {GET_Components,removeComponent,updateComponent} from '../../queries/queries'
 import * as compose from 'lodash.flowright';
 
 class ComponentList extends React.Component
 {
-  
+    constructor()
+    {
+        super();
+        this.state={
+          compId: null,
+          componentName: null,
+          categoryId:null
+        }
+    }
     displayComponent=()=>
     {
         var data=this.props.GET_Components;
@@ -39,12 +47,20 @@ class ComponentList extends React.Component
                   <TableCell align="right">{row.modifiedDate}</TableCell>
                   <TableCell align="right">
                       <Button
+                           type="submit"
+                           variant="outlined"
+                           color="primary"
+                           onClick={(e)=>{this.editComponent(e,row._id,row.componentName,row.categoryId)}}
+                            >
+                           Edit
+                      </Button>
+                      <Button
                             type="submit"
                             variant="outlined"
                             color="secondary"
                             onClick={(e)=>{this.removeComponent(e,row._id)}}
                             >
-                           Remove Component
+                           Remove
                       </Button>
                     </TableCell>
                 </TableRow>
@@ -59,10 +75,18 @@ class ComponentList extends React.Component
           refetchQueries:[{query:GET_Components}]
         });
     }
+    editComponent=(e,compid,componentName,categoryId)=>
+    {
+        this.setState({
+          compId: compid,
+          componentName: componentName,
+          categoryId:categoryId
+        })
+    }
     render(){
         return(
             <>
-            <AddNewComponent/>
+            <AddNewComponent components={this.state}/>
             <Typography component="h5" variant="h5" color="error">
                 Component List
             </Typography>
@@ -94,7 +118,8 @@ class ComponentList extends React.Component
 }
 export default compose(
   graphql(GET_Components,{name:"GET_Components"}),
-  graphql(removeComponent,{name:"removeComponent"})
+  graphql(removeComponent,{name:"removeComponent"}),
+  graphql(updateComponent,{name:"updateComponent"})
 )(ComponentList)
  
      

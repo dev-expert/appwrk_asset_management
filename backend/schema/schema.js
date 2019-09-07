@@ -5,7 +5,7 @@ const Component=require("../models/componentModel");
 const Asset=require("../models/assetModel");
 const User = require("../models/userModel");
 const Admin = require("../models/adminModel");
-const bcrypt = require('bcrypt');
+//const bcrypt = require('bcrypt');
 const jwt=require('jsonwebtoken');
 const ComponentType=new GraphQLObjectType({
     name:'Component',
@@ -274,13 +274,15 @@ const Mutation = new GraphQLObjectType({
             },
             resolve(parent,args)
             {
-                return bcrypt.hash(args.password,12).then(res=>{
-                    const admin=new Admin({
-                    userName:args.userName,
-                    password:res
-                  });
-                  return admin.save();
-                });
+                // return bcrypt.hash(args.password,12).then(res=>{
+                //     const admin=new Admin({
+                //     userName:args.userName,
+                //     password:res
+                //   });
+                //   return admin.save();
+                // });
+                const admin=new Admin(args);
+                return admin.save();
             }
         },
         deleteCategory:{
@@ -346,7 +348,33 @@ const Mutation = new GraphQLObjectType({
             {
                 return Category.updateOne({_id:args.catId},{$set:{categoryName:args.categoryName}});
             }
+        },
+        updateComponent:{
+            type:ComponentType,
+            args:{
+                comId:{type:GraphQLID},
+                componentName:{type:GraphQLString},
+                categoryId:{type:GraphQLID}
+            },
+            resolve(parent,args)
+            {
+                return Component.updateOne({_id:args.comId},{$set:{componentName:args.componentName,categoryId:args.categoryId}});
+            }
+        },
+        updateUser:{
+            type:UserType,
+            args:{
+                userId:{type:GraphQLID},
+                empId:{type:GraphQLString},
+                fullName:{type:GraphQLString},
+                designation:{type:GraphQLString}
+            },
+            resolve(parent,args)
+            {
+                return User.updateOne({_id:args.userId},{$set:{empId:args.empId,fullName:args.fullName,designation:args.designation}});
+            }
         }
+
 
     }
 }); 

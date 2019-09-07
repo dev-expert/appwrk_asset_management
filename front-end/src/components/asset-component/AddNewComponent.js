@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
-import {GET_Categories,addComponentMutation,GET_Components} from '../../queries/queries';
+import {GET_Categories,addComponentMutation,GET_Components,updateComponent} from '../../queries/queries';
 
 
 class AddNewCategory extends React.Component
@@ -24,7 +24,9 @@ class AddNewCategory extends React.Component
             createdDate:"",
             modifiedDate:"",
             message:"",
-            catValue:""
+            catValue:"",
+            compId:"",
+            ButtonText:"Add Component"
         }
     } 
     changeComponent=(e)=>{
@@ -38,23 +40,47 @@ class AddNewCategory extends React.Component
     submitComponent=(e)=>
     {
         e.preventDefault();
-        this.props.addComponentMutation({
-            variables:{
-                componentName:this.state.componentName,
-                createdBy:this.state.createdBy,
-                modifiedBy:this.state.modifiedBy,
-                createdDate:this.state.createdDate,
-                modifiedDate:this.state.modifiedDate,
-                categoryId:this.state.categoryId
+        if(this.state.compId)
+        {
+            this.props.updateComponent({
+                variables:{
+                    comId:this.state.compId,
+                    componentName:this.state.componentName,
+                    categoryId:this.state.categoryId
+         
             },
-            refetchQueries:[{query:GET_Components}]
-        });
-        this.setState({
-            componentName:"",
-            catValue:"",
-            message:"New Component Added Successfully."
-
-        })
+          refetchQueries:[{query:GET_Components}]
+              });
+         this.props.components.compId="";
+         this.props.components.componentName=""; 
+         this.setState({
+             compId:"",
+             ButtonText:"Add Component",
+             componentName:"",
+             message:"Component Updated Successfully"
+         });
+        }
+        else
+        {
+            this.props.addComponentMutation({
+                variables:{
+                    componentName:this.state.componentName,
+                    createdBy:this.state.createdBy,
+                    modifiedBy:this.state.modifiedBy,
+                    createdDate:this.state.createdDate,
+                    modifiedDate:this.state.modifiedDate,
+                    categoryId:this.state.categoryId
+                },
+                refetchQueries:[{query:GET_Components}]
+            });
+            this.setState({
+                componentName:"",
+                catValue:"",
+                message:"New Component Added Successfully."
+    
+            })
+        }
+        
 
     } 
     removeMessage=(e)=>{
@@ -85,6 +111,21 @@ class AddNewCategory extends React.Component
           categoryId:e.target.value,
            catValue:e.target.value
        })
+    }
+    componentWillReceiveProps(newProps)
+    {
+      if(newProps.components.compId)
+      {
+        this.setState({
+           
+            componentName:newProps.components.componentName,
+            categoryId:newProps.components.categoryId,
+            compId:newProps.components.compId,
+            ButtonText:"Update Component",
+            
+        })
+      }
+     
     }
     render(){
         return(
@@ -123,7 +164,7 @@ class AddNewCategory extends React.Component
                         variant="contained"
                         color="primary"
                     >
-                       Add Component
+                       {this.state.ButtonText}
                     </Button>
 
                 </form>
@@ -136,5 +177,6 @@ class AddNewCategory extends React.Component
 }
 export default compose(
     graphql(addComponentMutation,{name:"addComponentMutation"}),
-    graphql(GET_Categories,{name:"GET_Categories"})
+    graphql(GET_Categories,{name:"GET_Categories"}),
+    graphql(updateComponent,{name:"updateComponent"})
 )(AddNewCategory)

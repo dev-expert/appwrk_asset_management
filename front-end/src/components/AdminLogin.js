@@ -28,6 +28,7 @@ class AdminLogin extends React.Component {
         }
       }).then(res=>{
                const verifyToken=jwt.verify(res.data.admin.token,'secretkey');
+               console.log(verifyToken)
                window.localStorage.setItem('adminId', verifyToken.adminId);
       })
 
