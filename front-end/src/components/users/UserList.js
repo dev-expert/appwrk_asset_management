@@ -14,6 +14,16 @@ import * as compose from 'lodash.flowright';
 
 class ComponentList extends React.Component
 {
+    constructor()
+    {
+      super();
+      this.state={
+        userId:null,
+        empId:null,
+        fullName:null,
+        designation:null
+      }
+    }
     displayUsers=()=>
     {
         var data=this.props.GET_Users;
@@ -43,10 +53,20 @@ class ComponentList extends React.Component
                       <Button
                             type="submit"
                             variant="outlined"
+                            color="primary"
+                            onClick={(e)=>{this.editUser(e,row._id,row.empId,row.fullName,row.designation)}}
+                            >
+                           Edit 
+                      </Button>
+                    </TableCell>
+                    <TableCell align="right">  
+                      <Button
+                            type="submit"
+                            variant="outlined"
                             color="secondary"
                             onClick={(e)=>{this.removeUser(e,row._id)}}
                             >
-                           Remove User
+                           Remove 
                       </Button>
                     </TableCell>
                 </TableRow>
@@ -62,10 +82,19 @@ class ComponentList extends React.Component
         refetchQueries:[{query:GET_Users}]
       });
     }
+    editUser(e,userId,empId,fullName,designation)
+    {
+      this.setState({
+        userId: userId,
+        empId: empId,
+        fullName:fullName,
+        designation:designation
+       })
+    }
     render(){
         return(
             <>
-           <AddNewUser/>
+           <AddNewUser user={this.state}/>
             <Typography component="h5" variant="h5" color="error">
                 Users List
             </Typography>
@@ -81,7 +110,8 @@ class ComponentList extends React.Component
                   <TableCell align="right">Modified By</TableCell>
                   <TableCell align="right">Created Date</TableCell>
                   <TableCell align="right">Modified Date</TableCell>
-                  <TableCell align="right">Action</TableCell>
+                  <TableCell align="right">Action1</TableCell>
+                  <TableCell align="right">Action2</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

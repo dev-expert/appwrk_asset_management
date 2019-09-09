@@ -232,7 +232,7 @@ const updateComponent = gql`
 const updateUser = gql`
     mutation($userId:ID!,$empId:String!,$fullName:String!,$designation:String!)
     {
-        updateComponent(userId:$userId,empId:$empId,fullName:$fullName,designation:$designation)
+        updateUser(userId:$userId,empId:$empId,fullName:$fullName,designation:$designation)
         {
             _id
         }

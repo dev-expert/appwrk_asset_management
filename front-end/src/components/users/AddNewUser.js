@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {graphql} from 'react-apollo';
 import TextField from '@material-ui/core/TextField';
-import {GET_Users,addUserMutation} from '../../queries/queries';
+import {GET_Users,addUserMutation,updateUser} from '../../queries/queries';
 import * as compose from 'lodash.flowright';
 
 class AddNewUser extends React.Component
@@ -21,33 +21,78 @@ class AddNewUser extends React.Component
             modifiedBy:"AppWrk",
             createdDate:date,
             modifiedDate:date,
-            message:""
+            message:"",
+            ButtonText:"Add User",
+            userId:null
         }
     } 
-    
+    componentWillReceiveProps(newProps)
+    {
+      if(newProps.user.userId)
+      {
+        this.setState({
+           
+            empId:newProps.user.empId,
+            fullName:newProps.user.fullName,
+            designation:newProps.user.designation,
+            ButtonText:"Update User",
+            userId:newProps.user.userId
+            
+        })
+      }
+     
+    }
     submitUser=(e)=>
     {
         e.preventDefault();
-        console.log(this.props);
-        this.props.addUserMutation({
-            variables:{
-                empId:this.state.empId,
-                fullName:this.state.fullName,
-                designation:this.state.designation,
-                createdBy:this.state.createdBy,
-                modifiedBy:this.state.modifiedBy,
-                createdDate:this.state.createdDate,
-                modifiedDate:this.state.modifiedDate,
-            },
-         refetchQueries:[{query:GET_Users}]
-        });
-        this.setState({
-            empId:"",
-            fullName:"",
-            designation:"",
-            message:"New User Added Successfully."
+        if(this.state.userId)
+        {
+            this.props.updateUser({
+                   variables:{
+                    userId:this.state.userId,
+                    empId:this.state.empId,
+                    fullName:this.state.fullName,
+                    designation:this.state.designation
+            
+               },
+             refetchQueries:[{query:GET_Users}]
+                 });
+            this.props.user.userId="";
+            this.props.user.empId="";
+            this.props.user.fullName="";
+            this.props.user.designation="";
+            
+            this.setState({
+                userId:"",
+                ButtonText:"Add User",
+                empId:"",
+                fullName:"",
+                designation:"",
+                message:"User Updated Successfully"
+            });
+        }
+        else
+        {
+            this.props.addUserMutation({
+                variables:{
+                    empId:this.state.empId,
+                    fullName:this.state.fullName,
+                    designation:this.state.designation,
+                    createdBy:this.state.createdBy,
+                    modifiedBy:this.state.modifiedBy,
+                    createdDate:this.state.createdDate,
+                    modifiedDate:this.state.modifiedDate,
+                },
+            refetchQueries:[{query:GET_Users}]
+            });
+            this.setState({
+                empId:"",
+                fullName:"",
+                designation:"",
+                message:"New User Added Successfully."
 
-        })
+            })
+        }
 
     } 
   
@@ -109,7 +154,7 @@ class AddNewUser extends React.Component
                         variant="contained"
                         color="primary"
                     >
-                       Add User
+                      {this.state.ButtonText}
                     </Button>
 
                 </form>
@@ -121,5 +166,6 @@ class AddNewUser extends React.Component
     }
 }
 export default compose(
-    graphql(addUserMutation,{name:"addUserMutation"})
+    graphql(addUserMutation,{name:"addUserMutation"}),
+    graphql(updateUser,{name:"updateUser"})
 )(AddNewUser)

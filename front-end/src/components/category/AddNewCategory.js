@@ -58,6 +58,14 @@ class AddNewCategory extends React.Component
         }
         else
         {
+            if(!this.state.categoryName)
+            {
+                this.setState({
+                    message:"Category Name can't be blank!"
+                })
+                return
+            }
+
             this.props.addCategoryMutation({
                 variables:{
                     categoryName:this.state.categoryName,
@@ -67,12 +75,17 @@ class AddNewCategory extends React.Component
                     modifiedDate:this.state.modifiedDate
                 },
                 refetchQueries:[{query:GET_Categories}]
-            });
-            this.setState({
-                categoryName:"",
-                message:"New Category Submitted Successfully"
-
+            }).then(()=>{
+                this.setState({
+                    categoryName:"",
+                    message:"New Category Submitted Successfully"
+                })
+            }).catch(()=>{
+                this.setState({
+                    message:"Something went wrong!"
+                })
             })
+           
          }
 
     } 
