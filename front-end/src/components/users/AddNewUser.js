@@ -73,6 +73,13 @@ class AddNewUser extends React.Component
         }
         else
         {
+            if(!this.state.empId || !this.state.fullName || !this.state.designation)
+            {
+                this.setState({
+                    message:"All fields are required!"
+                })
+                return
+            }
             this.props.addUserMutation({
                 variables:{
                     empId:this.state.empId,

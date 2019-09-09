@@ -62,6 +62,14 @@ class AddNewCategory extends React.Component
         }
         else
         {
+            if(!this.state.componentName || !this.state.categoryId)
+            {
+                this.setState({
+                    message:"Component & Category Name can't be blank!"
+                })
+                return
+            }
+
             this.props.addComponentMutation({
                 variables:{
                     componentName:this.state.componentName,
@@ -72,13 +80,19 @@ class AddNewCategory extends React.Component
                     categoryId:this.state.categoryId
                 },
                 refetchQueries:[{query:GET_Components}]
+            }).then(()=>{
+                this.setState({
+                    componentName:"",
+                    catValue:"",
+                    message:"New Component Added Successfully."
+        
+                })
+            }).catch(()=>{
+                this.setState({
+                    message:"Something went wrong!"
+                })
             });
-            this.setState({
-                componentName:"",
-                catValue:"",
-                message:"New Component Added Successfully."
-    
-            })
+            
         }
         
 
