@@ -114,44 +114,68 @@ const RootQuery=new GraphQLObjectType({
         category:{
             type:CategoryType,
             args:{_id:{type:GraphQLID}},
-            resolve(parent,args)
+            resolve(parent,args,req)
             {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
                 return Category.findById(args.id);
             }
         },
         component:{
             type:ComponentType,
             args:{_id:{type:GraphQLID}},
-            resolve(parent,args)
+            resolve(parent,args,req)
             {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
                 return Component.findById(args.id);
             }
         },
         categories:{
             type:GraphQLList(CategoryType),
-            resolve(parent,args)
+            resolve(parent,args,req)
             {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
                 return Category.find({});
             }
         },
         components:{
             type:GraphQLList(ComponentType),
-            resolve(parent,args)
+            resolve(parent,args,req)
             {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
                 return Component.find({});
             }
         },
         assets:{
             type:GraphQLList(AssetType),
-            resolve(parent,args)
+            resolve(parent,args,req)
             {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
                 return Asset.find({});
             }
         },
         users:{
             type:GraphQLList(UserType),
-            resolve(args)
+            resolve(args,req)
             {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
                 return User.find({});
             }
         }
@@ -173,8 +197,12 @@ const Mutation = new GraphQLObjectType({
                 createdDate: { type: GraphQLString },
                 modifiedDate: { type: GraphQLString }
             },
-            resolve(parent,args)
+            resolve(parent,args,req)
             {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
                 let category=new Category({
                     categoryName:args.categoryName,
                     createdBy:args.createdBy,
@@ -195,8 +223,12 @@ const Mutation = new GraphQLObjectType({
                 modifiedDate:{type: GraphQLString},
                 categoryId:{type:GraphQLID}
             },
-            resolve(parent,args)
+            resolve(parent,args,req)
             {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
                 let component=new Component({
                     componentName:args.componentName,
                     createdBy:args.createdBy,
@@ -216,7 +248,7 @@ const Mutation = new GraphQLObjectType({
                 return Admin.findOne({userName:args.userName}).then((res)=>{
                     if(!!res && !!res._id){
                       let token=jwt.sign({adminId:res._id},'secretkey')
-                     return {userName:res.userName,_id:res._id,token:token}
+                     return {userName:res.userName,token:token}
                     }
                     return null;
                });
@@ -243,8 +275,12 @@ const Mutation = new GraphQLObjectType({
                 modifiedDate:{type: GraphQLString},
                 componentId:{type:GraphQLID}
             },
-            resolve(parent,args)
+            resolve(parent,args,req)
             {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
                 const asset=new Asset(args);
                 return asset.save();
             }
@@ -260,8 +296,12 @@ const Mutation = new GraphQLObjectType({
                 createdDate:{type: GraphQLString},
                 modifiedDate:{type: GraphQLString}
             },
-            resolve(parent,args)
+            resolve(parent,args,req)
             {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
                 const user=new User(args);
                 return user.save();
             }
@@ -272,8 +312,12 @@ const Mutation = new GraphQLObjectType({
                 userName:{type:GraphQLString},
                 password:{type: GraphQLString},
             },
-            resolve(parent,args)
+            resolve(parent,args,req)
             {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
                 // return bcrypt.hash(args.password,12).then(res=>{
                 //     const admin=new Admin({
                 //     userName:args.userName,
@@ -290,8 +334,12 @@ const Mutation = new GraphQLObjectType({
             args:{
                 catId:{type:GraphQLID},
             },
-            resolve(parent,args)
+            resolve(parent,args,req)
             {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
                  return Category.remove({_id:args.catId});
             }
         },
@@ -300,8 +348,12 @@ const Mutation = new GraphQLObjectType({
             args:{
                 componentId:{type:GraphQLID},
             },
-            resolve(parent,args)
+            resolve(parent,args,req)
             {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
                  return Component.remove({_id:args.componentId});
             }
         },
@@ -310,8 +362,12 @@ const Mutation = new GraphQLObjectType({
             args:{
                 assetId:{type:GraphQLID},
             },
-            resolve(parent,args)
+            resolve(parent,args,req)
             {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
                  return Asset.remove({_id:args.assetId});
             }
         },
@@ -320,8 +376,12 @@ const Mutation = new GraphQLObjectType({
             args:{
                 userId:{type:GraphQLID},
             },
-            resolve(parent,args)
+            resolve(parent,args,req)
             {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
                  return User.remove({_id:args.userId});
             }
         },
@@ -333,8 +393,12 @@ const Mutation = new GraphQLObjectType({
                 owner:{type:GraphQLString}
 
             },
-            resolve(parent,args)
+            resolve(parent,args,req)
             {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
                  return Asset.updateOne({_id:args.assetId},{$set:{status:args.newStatus,owner:args.owner}});
             }
         },
@@ -344,8 +408,12 @@ const Mutation = new GraphQLObjectType({
                 catId:{type:GraphQLID},
                 categoryName:{type:GraphQLString}
             },
-            resolve(parent,args)
+            resolve(parent,args,req)
             {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
                 return Category.updateOne({_id:args.catId},{$set:{categoryName:args.categoryName}});
             }
         },
@@ -356,8 +424,12 @@ const Mutation = new GraphQLObjectType({
                 componentName:{type:GraphQLString},
                 categoryId:{type:GraphQLID}
             },
-            resolve(parent,args)
+            resolve(parent,args,req)
             {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
                 return Component.updateOne({_id:args.comId},{$set:{componentName:args.componentName,categoryId:args.categoryId}});
             }
         },
@@ -369,8 +441,12 @@ const Mutation = new GraphQLObjectType({
                 fullName:{type:GraphQLString},
                 designation:{type:GraphQLString}
             },
-            resolve(parent,args)
+            resolve(parent,args,req)
             {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
                 return User.updateOne({_id:args.userId},{$set:{empId:args.empId,fullName:args.fullName,designation:args.designation}});
             }
         }

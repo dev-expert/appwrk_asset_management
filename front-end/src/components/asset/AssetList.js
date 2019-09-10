@@ -17,6 +17,7 @@ import Grid from '@material-ui/core/Grid';
 import Select from '@material-ui/core/Select';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import MenuItem from '@material-ui/core/MenuItem';
+import NavBar from '../../navigation/NavBar';
 
 class AssetList extends React.Component
 {
@@ -149,6 +150,7 @@ class AssetList extends React.Component
     render(){
         return(
             <>
+            <NavBar/>
             {/* <Button colored onClick={this.handleOpenDialog} raised ripple>Show Dialog</Button> */}
             <Dialog open={this.state.openDialog}>
                <DialogTitle>Change Asset Status</DialogTitle>

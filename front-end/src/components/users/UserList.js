@@ -11,6 +11,7 @@ import { graphql } from 'react-apollo';
 import {GET_Users,removeUser} from '../../queries/queries'
 import AddNewUser from '../users/AddNewUser';
 import * as compose from 'lodash.flowright';
+import NavBar from '../../navigation/NavBar';
 
 class ComponentList extends React.Component
 {
@@ -94,6 +95,7 @@ class ComponentList extends React.Component
     render(){
         return(
             <>
+            <NavBar/>
            <AddNewUser user={this.state}/>
             <Typography component="h5" variant="h5" color="error">
                 Users List

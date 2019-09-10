@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import {graphql} from 'react-apollo';
 import {auth_Admin} from '../queries/queries';
 import * as compose from 'lodash.flowright';
-import jwt from 'jsonwebtoken';
+//import jwt from 'jsonwebtoken';
 
 class AdminLogin extends React.Component {
 
@@ -27,9 +27,11 @@ class AdminLogin extends React.Component {
           password:this.state.password
         }
       }).then(res=>{
-               const verifyToken=jwt.verify(res.data.admin.token,'secretkey');
-               console.log(verifyToken)
-               window.localStorage.setItem('adminId', verifyToken.adminId);
+              // const verifyToken=jwt.verify(res.data.admin.token,'secretkey');
+              // console.log(res)
+               localStorage.setItem('admintoken', res.data.admin.token);
+                this.props.history.push('/category');
+
       })
 
     }

@@ -11,7 +11,7 @@ function NavBar() {
       {popupState => (
         <React.Fragment>
 
-          <Link to="/" style={{ textDecoration: 'none' }}>
+          <Link to="/dashboard" style={{ textDecoration: 'none' }}>
             <Button variant="contained" color="secondary" {...bindTrigger(popupState)}>
               DashBoard
             </Button>
@@ -45,6 +45,11 @@ function NavBar() {
               Asset
             </Button>
           </Link>
+          <Link to="/logout" style={{ textDecoration: 'none' }}>
+          <Button variant="contained" color="secondary" {...bindTrigger(popupState)}>
+            Logout
+          </Button>
+        </Link>
 
 
         </React.Fragment>

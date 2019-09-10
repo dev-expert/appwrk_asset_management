@@ -11,6 +11,7 @@ import { graphql } from 'react-apollo';
 import AddNewCategory from './AddNewCategory';
 import {GET_Categories,removeCategory,updateCategory} from '../../queries/queries';
 import * as compose from 'lodash.flowright';
+import NavBar from '../../navigation/NavBar';
 
 class CategoryList extends React.Component
 {
@@ -97,7 +98,7 @@ class CategoryList extends React.Component
   render(){
     return (
       <>
-
+       <NavBar/>
       <AddNewCategory category={this.state}/>
       <Typography component="h5" variant="h5" color="error">
         Category List

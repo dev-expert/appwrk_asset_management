@@ -11,6 +11,7 @@ import { graphql } from 'react-apollo';
 import AddNewComponent from './AddNewComponent';
 import {GET_Components,removeComponent,updateComponent} from '../../queries/queries'
 import * as compose from 'lodash.flowright';
+import NavBar from '../../navigation/NavBar';
 
 class ComponentList extends React.Component
 {
@@ -86,6 +87,7 @@ class ComponentList extends React.Component
     render(){
         return(
             <>
+            <NavBar/>
             <AddNewComponent components={this.state}/>
             <Typography component="h5" variant="h5" color="error">
                 Component List
