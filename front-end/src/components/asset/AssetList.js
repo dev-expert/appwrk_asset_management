@@ -71,13 +71,23 @@ class AssetList extends React.Component
                   <TableCell align="right">{row.createdDate}</TableCell>
                   <TableCell align="right">{row.modifiedDate}</TableCell>
                   <TableCell align="right">
+                        <Button
+                            type="submit"
+                            variant="outlined"
+                            color="primary"
+                            onClick={(e)=>{this.editAsset(e,row._id,row.assetName,row.serialNo,row.manufacturer,row.description,row.expiryDate,row.color,row.purchaseDate)}}
+                            >
+                           Edit
+                      </Button>
+                  </TableCell>
+                  <TableCell align="right">
                       <Button
                             type="submit"
                             variant="outlined"
                             color="secondary"
                             onClick={(e)=>{this.removeAsset(e,row._id)}}
                             >
-                           Remove Asset
+                           Remove
                       </Button>
                     </TableCell>
                 </TableRow>
@@ -146,7 +156,10 @@ class AssetList extends React.Component
           openDialog: false
         });
     }
-
+    editAsset(e,assetId,assetName,serialNo,manufacturer,description,expiryDate,color,purchaseDate)
+    {
+      
+    }
     render(){
         return(
             <>
@@ -210,7 +223,8 @@ class AssetList extends React.Component
                   <TableCell align="right">Modified By</TableCell>
                   <TableCell align="right">Created Date</TableCell>
                   <TableCell align="right">Modified Date</TableCell>
-                  <TableCell align="right">Action</TableCell>
+                  <TableCell align="right">Action1</TableCell>
+                  <TableCell align="right">Action2</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

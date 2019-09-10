@@ -32,6 +32,8 @@ class AdminLogin extends React.Component {
                localStorage.setItem('admintoken', res.data.admin.token);
                 this.props.history.push('/category');
 
+      }).catch(()=>{
+        alert('Invalid Login Credentials!');
       })
 
     }
@@ -63,7 +65,6 @@ class AdminLogin extends React.Component {
             required
             fullWidth
             label="Password"
-            autoFocus
             value={this.state.password}
             onChange={(e)=>{this.setState({password:e.target.value})}}
             /> 

@@ -170,7 +170,7 @@ const RootQuery=new GraphQLObjectType({
         },
         users:{
             type:GraphQLList(UserType),
-            resolve(args,req)
+            resolve(parent,args,req)
             {
                 if(!req.isAuth)
                 {
@@ -449,7 +449,33 @@ const Mutation = new GraphQLObjectType({
                 }
                 return User.updateOne({_id:args.userId},{$set:{empId:args.empId,fullName:args.fullName,designation:args.designation}});
             }
+        },
+        updateAsset:{
+            type:AssetType,
+            args:{
+                assetId:{type:GraphQLID},
+                assetName: {type: GraphQLString} ,
+                serialNo:{type: GraphQLString},
+                manufacturer:{type: GraphQLString},
+                description:{type: GraphQLString},
+                expiryDate:{type: GraphQLString},
+                color:{type: GraphQLString},
+                purchaseDate:{type: GraphQLString},
+                purchaseCost:{type:GraphQLInt},
+                owner:{type: GraphQLID},
+                status:{type: GraphQLString},
+                componentId:{type:GraphQLID},
+            },
+            resolve(parent,args,req)
+            {
+                if(!req.isAuth)
+                {
+                    throw new Error('Un-authenicated');
+                }
+                return Asset.updateOne({_id:args.assetId},{$set:{assetName:args.assetName,serialNo:args.serialNo,manufacturer:args.manufacturer,description:args.description,expiryDate:args.expiryDate,color:args.color,purchaseDate:args.purchaseDate,purchaseCost:args.purchaseCost,owner:args.owner,status:args.status,componentId:args.componentId}});
+            }
         }
+
 
 
     }
