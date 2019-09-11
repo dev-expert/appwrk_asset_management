@@ -12,6 +12,7 @@ const assetModel = Mongoose.model("assets",{
     purchaseCost:Number,
     owner:Mongoose.Schema.Types.ObjectId,
     status:String,
+    image:String,
     createdBy:String,
     modifiedBy:String,
     createdDate:String,

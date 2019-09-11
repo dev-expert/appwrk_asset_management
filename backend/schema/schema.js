@@ -1,5 +1,5 @@
 const graphql=require('graphql');
-const {GraphQLObjectType,GraphQLString, GraphQLSchema, GraphQLID,GraphQLList,GraphQLObjectId,GraphQLInt}=graphql;
+const {GraphQLObjectType,GraphQLString, GraphQLSchema, GraphQLID,GraphQLList,GraphQLObject,GraphQLInt}=graphql;
 const Category=require("../models/categoryModel");
 const Component=require("../models/componentModel");
 const Asset=require("../models/assetModel");
@@ -63,6 +63,7 @@ const AssetType= new GraphQLObjectType({
         purchaseCost:{type:GraphQLInt},
         owner:{type: GraphQLID},
         status:{type: GraphQLString},
+        image:{type:GraphQLString},
         createdBy:{type: GraphQLString},
         modifiedBy:{type: GraphQLString},
         createdDate:{type: GraphQLString},
@@ -269,6 +270,7 @@ const Mutation = new GraphQLObjectType({
                 purchaseCost:{type:GraphQLInt},
                 owner:{type: GraphQLString},
                 status:{type: GraphQLString},
+                image:{type:GraphQLString},
                 createdBy:{type: GraphQLString},
                 modifiedBy:{type: GraphQLString},
                 createdDate:{type: GraphQLString},
