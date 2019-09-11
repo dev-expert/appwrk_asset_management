@@ -1,0 +1,22 @@
+.login_body{
+    height: 100vh;
+    background-color: #ecf0f1;}
+
+.logo_img{
+    margin-bottom: 15%;
+    margin-top: -10%;}
+
+.signin_text{        
+    font-weight: 700!important;
+    margin-bottom: 5%!important;
+    font-size: 2rem!important;
+    font-family: 'Poppins', sans-serif!important;}
+
+
+@media only screen and (max-width: 600px) {
+    .login_form{
+       padding: 0 20px;}
+
+    .logo_img{        
+        width: 70%;}
+  }

@@ -1,13 +1,17 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import {graphql} from 'react-apollo';
 import {auth_Admin} from '../queries/queries';
 import * as compose from 'lodash.flowright';
 //import jwt from 'jsonwebtoken';
+import './AdminLogin.css';
+import assetImage from '../../src/images/logo.png';
+
+
+
 
 class AdminLogin extends React.Component {
 
@@ -39,26 +43,28 @@ class AdminLogin extends React.Component {
     }
   render(){
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div>
-        
-        <Typography component="h1" variant="h5" color="error">
+   
+    <Grid  container component="main"  alignContent="center"   justify="center" className="login_body" >
+    <Grid item >     
+        <div align="center" >
+          <img  src={assetImage} className="logo_img"  alt="Asset Management Logo"/>
+        </div>
+        <div className="login_form">
+        <Typography component="h1" variant="h5" color="secondary" className="signin_text">
           Sign in
         </Typography>
-        <form onSubmit={this.authUser.bind(this)}>
-        
+        <form onSubmit={this.authUser.bind(this)}>        
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
+            color="secondary"
             label="User Name"
             autoFocus
             value={this.state.userName}
             onChange={(e)=>{this.setState({userName:e.target.value})}}
             /> 
-
           <TextField
             variant="outlined"
             margin="normal"
@@ -67,22 +73,21 @@ class AdminLogin extends React.Component {
             label="Password"
             value={this.state.password}
             onChange={(e)=>{this.setState({password:e.target.value})}}
-            /> 
-        
+            />         
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
-            
-          >
-            Sign In
+            color="primary"  
+            size="large"
+            className="login_submit_btn"          
+          >Sign In
           </Button>
-
-
        </form>
       </div>
-    </Container>
+      </Grid>      
+      </Grid>  
+    
   );
   }
 }

@@ -1,15 +1,19 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 // import Menu from '@material-ui/core/Menu';
 // import MenuItem from '@material-ui/core/MenuItem';
 import PopupState, { bindTrigger } from 'material-ui-popup-state';
 import {Link} from 'react-router-dom';
+import './navbar.css';
 function NavBar() {
    
   return (
     <PopupState variant="popover" popupId="demo-popup-menu">
       {popupState => (
         <React.Fragment>
+              <Grid  container component="main"       >
+    <Grid item className="navbar_btn" > 
 
           <Link to="/dashboard" style={{ textDecoration: 'none' }}>
             <Button variant="contained" color="secondary" {...bindTrigger(popupState)}>
@@ -50,6 +54,8 @@ function NavBar() {
             Logout
           </Button>
         </Link>
+        </Grid>
+        </Grid>
 
 
         </React.Fragment>

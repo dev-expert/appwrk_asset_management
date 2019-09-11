@@ -12,6 +12,13 @@ import AddNewComponent from './AddNewComponent';
 import {GET_Components,removeComponent,updateComponent} from '../../queries/queries'
 import * as compose from 'lodash.flowright';
 import NavBar from '../../navigation/NavBar';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import EditIcon from '@material-ui/icons/Edit';
+
+import Grid from '@material-ui/core/Grid';
+
+
+
 
 class ComponentList extends React.Component
 {
@@ -34,36 +41,32 @@ class ComponentList extends React.Component
         else
         {
             return data.components && data.components.map((row, index) => (
-                <TableRow key={row._id}>
-                  <TableCell>{index+1}</TableCell>
-                  <TableCell component="th" scope="row">
+                <TableRow className="tabel_body" key={row._id}>
+                  <TableCell className="item">{index+1}</TableCell>
+                  <TableCell className="item" component="th" scope="row">
                     {row.componentName}
                   </TableCell>
-                  <TableCell component="th" scope="row">
+                  <TableCell className="item" component="th" scope="row">
                     {row.category.categoryName}
                   </TableCell>
-                  <TableCell align="right">{row.createdBy}</TableCell>
-                  <TableCell align="right">{row.modifiedBy}</TableCell>
-                  <TableCell align="right">{row.createdDate}</TableCell>
-                  <TableCell align="right">{row.modifiedDate}</TableCell>
-                  <TableCell align="right">
-                      <Button
-                           type="submit"
-                           variant="outlined"
-                           color="primary"
-                           onClick={(e)=>{this.editComponent(e,row._id,row.componentName,row.categoryId)}}
-                            >
-                           Edit
-                      </Button>
-                      <Button
-                            type="submit"
-                            variant="outlined"
-                            color="secondary"
-                            onClick={(e)=>{this.removeComponent(e,row._id)}}
-                            >
-                           Remove
-                      </Button>
-                    </TableCell>
+                  <TableCell className="item">{row.createdBy}</TableCell>
+                  <TableCell className="item" >{row.modifiedBy}</TableCell>
+                  <TableCell className="item">{row.createdDate}</TableCell>
+                  <TableCell className="item">{row.modifiedDate}</TableCell>
+                  <TableCell align="center">
+                 <div style={{display: 'flex'}}>
+                  <EditIcon                      
+                        color="primary"
+                        className="edit_icon"
+                        onClick={(e)=>{this.editComponent(e,row._id,row.componentName,row.categoryId)}}/>
+                        
+                        <DeleteForeverIcon  type="submit"
+                        variant="outlined"
+                        className="delete_icon"
+                        color="secondary"
+                        onClick={(e)=>{this.removeComponent(e,row._id)}}/>
+                        </div> 
+                </TableCell>
                 </TableRow>
               ))
         }
@@ -87,23 +90,29 @@ class ComponentList extends React.Component
     render(){
         return(
             <>
+                               <Grid container  justify="center"  >
+      <Grid item className="container"    >
             <NavBar/>
+            </Grid>
+            <Grid item className="container">
             <AddNewComponent components={this.state}/>
-            <Typography component="h5" variant="h5" color="error">
+            </Grid>
+            <Grid item className="container user_tabel"   >
+            <Typography component="h5" variant="h5" className="heading_text">
                 Component List
             </Typography>
           <Paper>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Serial No.</TableCell>
-                  <TableCell>Component Name</TableCell>
-                  <TableCell>Category Name</TableCell>
-                  <TableCell align="right">Created By</TableCell>
-                  <TableCell align="right">Modified By</TableCell>
-                  <TableCell align="right">Created Date</TableCell>
-                  <TableCell align="right">Modified Date</TableCell>
-                  <TableCell align="right">Action</TableCell>
+          <Table className="data">
+        <TableHead className="data_head">
+          <TableRow className="data_row">
+                  <TableCell className="text">Serial No.</TableCell>
+                  <TableCell className="text">Component Name</TableCell>
+                  <TableCell className="text">Category Name</TableCell>
+                  <TableCell className="text">Created By</TableCell>
+                  <TableCell className="text">Modified By</TableCell>
+                  <TableCell className="text">Created Date</TableCell>
+                  <TableCell className="text">Modified Date</TableCell>
+                  <TableCell className="text">Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -112,7 +121,8 @@ class ComponentList extends React.Component
             </Table>
             
           </Paper>
-           
+          </Grid>
+          </Grid>
             </>
           
         );

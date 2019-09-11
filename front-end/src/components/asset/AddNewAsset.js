@@ -140,10 +140,10 @@ class AddNewAsset extends React.Component{
         <Container component="main" maxWidth="md">
           
         <div>
-        {/* <img src={this.state.file} alt="dfg"/> */}
-            <Typography component="h1" variant="h5">
-                Add New Asset
-            </Typography>
+       
+            <Typography component="h1" variant="h5" color="error">
+            Add New Asset
+                    </Typography>
             <form onSubmit={this.submitAsset.bind(this)}>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>

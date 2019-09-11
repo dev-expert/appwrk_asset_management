@@ -18,6 +18,10 @@ import Select from '@material-ui/core/Select';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import MenuItem from '@material-ui/core/MenuItem';
 import NavBar from '../../navigation/NavBar';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+
+
+
 
 class AssetList extends React.Component
 {
@@ -39,23 +43,23 @@ class AssetList extends React.Component
         else
         {
             return data.assets && data.assets.map((row, index) => (
-                <TableRow key={row._id}>
-                  <TableCell>{index+1}</TableCell>
-                  <TableCell component="th" scope="row">
+                <TableRow className="tabel_body" key={row._id}>
+                  <TableCell className="item">{index+1}</TableCell>
+                  <TableCell  className="item" component="th" scope="row">
                     {row.assetName}
                   </TableCell>
-                  <TableCell component="th" scope="row">
+                  <TableCell className="item" component="th" scope="row">
                     {row.component.componentName}
                   </TableCell>
-                  <TableCell align="right">{row.component.category.categoryName}</TableCell>
-                  <TableCell align="right">{row.serialNo}</TableCell>
-                  <TableCell align="right">{row.manufacturer}</TableCell>
-                  <TableCell align="right">{row.description}</TableCell>
-                  <TableCell align="right">{row.expiryDate}</TableCell>
-                  <TableCell align="right">{row.color}</TableCell>
-                  <TableCell align="right">{row.purchaseDate}</TableCell>
-                  <TableCell align="right">{row.user.fullName}</TableCell>
-                  <TableCell align="right">
+                  <TableCell className="item">{row.component.category.categoryName}</TableCell>
+                  <TableCell className="item">{row.serialNo}</TableCell>
+                  <TableCell className="item">{row.manufacturer}</TableCell>
+                  <TableCell className="item">{row.description}</TableCell>
+                  <TableCell className="item">{row.expiryDate}</TableCell>
+                  <TableCell className="item">{row.color}</TableCell>
+                  <TableCell className="item">{row.purchaseDate}</TableCell>
+                  <TableCell className="item">{row.user.fullName}</TableCell>
+                  <TableCell className="item">
                     <Button 
                       type="button"
                       variant="outlined"
@@ -162,10 +166,15 @@ class AssetList extends React.Component
     }
     render(){
         return(
-            <>
+          <>
+      <Grid container  justify="center"  >
+      <Grid item className="container"    >
             <NavBar/>
+            </Grid>
+            <Grid item className="container"     >
             {/* <Button colored onClick={this.handleOpenDialog} raised ripple>Show Dialog</Button> */}
             <Dialog open={this.state.openDialog}>
+            
                <DialogTitle>Change Asset Status</DialogTitle>
              <DialogContent>
              
@@ -199,32 +208,32 @@ class AssetList extends React.Component
             </DialogActions>
         </Dialog>
             <AddNewAsset/>
-         
-            <Typography component="h5" variant="h5" color="error">
+            </Grid>
+            <Grid item className="container user_tabel"   >
+            <Typography component="h5" variant="h5" className="heading_text">
                 Asset List
             </Typography>
           <Paper>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Sr. No.</TableCell>
-                  <TableCell>Asset Name</TableCell>
-                  <TableCell>Component Name</TableCell>
-                  <TableCell>Category Name</TableCell>
-                  <TableCell>Serial No.</TableCell>
-                  <TableCell>Manufacturer</TableCell>  
-                  <TableCell>Description</TableCell>
-                  <TableCell>Expiry Date</TableCell> 
-                  <TableCell>Color</TableCell>
-                  <TableCell>Purchase Date</TableCell>
-                  <TableCell>Owner</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell align="right">Created By</TableCell>
-                  <TableCell align="right">Modified By</TableCell>
-                  <TableCell align="right">Created Date</TableCell>
-                  <TableCell align="right">Modified Date</TableCell>
-                  <TableCell align="right">Action1</TableCell>
-                  <TableCell align="right">Action2</TableCell>
+          <Table className="data">
+        <TableHead className="data_head">
+          <TableRow className="data_row">
+                  <TableCell className="text">Sr. No.</TableCell>
+                  <TableCell className="text">Asset Name</TableCell>
+                  <TableCell className="text">Component Name</TableCell>
+                  <TableCell className="text">Category Name</TableCell>
+                  <TableCell className="text">Serial No.</TableCell>
+                  <TableCell className="text">Manufacturer</TableCell>  
+                  <TableCell className="text">Description</TableCell>
+                  <TableCell className="text">Expiry Date</TableCell> 
+                  <TableCell className="text">Color</TableCell>
+                  <TableCell className="text">Purchase Date</TableCell>
+                  <TableCell className="text">Owner</TableCell>
+                  <TableCell className="text">Status</TableCell>
+                  <TableCell className="text">Created By</TableCell>
+                  <TableCell className="text">Modified By</TableCell>
+                  <TableCell className="text">Created Date</TableCell>
+                  <TableCell className="text">Modified Date</TableCell>
+                  <TableCell className="text">Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -233,7 +242,8 @@ class AssetList extends React.Component
             </Table>
             
           </Paper>
-           
+          </Grid>
+          </Grid>
             </>
           
         );

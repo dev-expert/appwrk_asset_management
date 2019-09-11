@@ -112,7 +112,7 @@ class AddNewCategory extends React.Component
     render(){
         
         return(
-            <Container component="main" maxWidth="sm">
+            <Container component="main" maxWidth="md" justify="left">
                 <div>
                     <Typography component="h1" variant="h5" color="error">
                         Add New Category
