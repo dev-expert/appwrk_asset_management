@@ -238,6 +238,15 @@ const updateUser = gql`
         }
     }
 `;
+const updateAsset=gql`
+    mutation($assetId:ID!,$assetName:String!,$serialNo:String!,$manufacturer:String!,$description:String!,$expiryDate:String!,$color:String!,$purchaseDate:String!,$purchaseCost:String!,$owner:ID!,$status:String!,$componentId:ID!)
+    {
+        updateAsset(assetId:$assetId,assetName:$assetName,serialNo:$serialNo,manufacturer:$manufacturer,description:$description,expiryDate:$expiryDate,color:$color,purchaseDate:$purchaseDate,purchaseCost:$purchaseCost,owner:$owner,status:$status,componentId:$componentId)
+        {
+            _id
+        }
+    }
+`;
 
 
-export {GET_Categories,GET_Components,addCategoryMutation,addComponentMutation,GET_Assets,auth_Admin,addAssetMutation,GET_Users,addUserMutation,removeCategory,removeComponent,removeAsset,removeUser,updateAssetStatus,updateCategory,updateComponent,updateUser}
+export {GET_Categories,GET_Components,addCategoryMutation,addComponentMutation,GET_Assets,auth_Admin,addAssetMutation,GET_Users,addUserMutation,removeCategory,removeComponent,removeAsset,removeUser,updateAssetStatus,updateCategory,updateComponent,updateUser,updateAsset}

@@ -10,6 +10,8 @@ Step 2: There will be two folders
 
 Move to backend folder and run following commands :
 	
+	> npm install
+	
 	> node collection.js
 		
 	This above command will create the db and collections in the mongodb but before this 	please ensure that you have installed mongodb on your system and service of mongodb is 	running.
@@ -19,6 +21,8 @@ Move to backend folder and run following commands :
 	> npm start
 
  Now move to frontend folder and run following command	 to start React App:
+	
+	> npm install
 	
 	> npm start
 

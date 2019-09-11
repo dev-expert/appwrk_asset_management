@@ -79,6 +79,21 @@ class AddNewAsset extends React.Component{
             },
             refetchQueries:[{query:GET_Assets}]
         });
+        this.setState({
+            assetName:"",
+            serialNo:"",
+            manufacturer:"",
+            description:"",
+            expiryDate:"",
+            color:"",
+            purchaseDate:"",
+            purchaseCost:"",
+            owner:"",
+            status:"",
+            message:"",
+            componentId:"",
+
+        });
     }
     displayUsers=()=>
     {

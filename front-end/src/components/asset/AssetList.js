@@ -74,15 +74,26 @@ class AssetList extends React.Component
                   <TableCell align="right">{row.modifiedBy}</TableCell>
                   <TableCell align="right">{row.createdDate}</TableCell>
                   <TableCell align="right">{row.modifiedDate}</TableCell>
-                  <TableCell align="center">
-                 <div style={{display: 'flex'}}>                                        
-                        <DeleteForeverIcon  type="submit"
-                        variant="outlined"
-                        className="delete_icon"
-                        color="secondary"
-                        onClick={(e)=>{this.removeAsset(e,row._id)}}/>
-                        </div> 
-                </TableCell>
+                  <TableCell align="right">
+                        <Button
+                            type="submit"
+                            variant="outlined"
+                            color="primary"
+                            onClick={(e)=>{this.editAsset(e,row._id,row.assetName,row.serialNo,row.manufacturer,row.description,row.expiryDate,row.color,row.purchaseDate)}}
+                            >
+                           Edit
+                      </Button>
+                  </TableCell>
+                  <TableCell align="right">
+                      <Button
+                            type="submit"
+                            variant="outlined"
+                            color="secondary"
+                            onClick={(e)=>{this.removeAsset(e,row._id)}}
+                            >
+                           Remove
+                      </Button>
+                    </TableCell>
                 </TableRow>
               ))
         }
@@ -149,10 +160,13 @@ class AssetList extends React.Component
           openDialog: false
         });
     }
-
+    editAsset(e,assetId,assetName,serialNo,manufacturer,description,expiryDate,color,purchaseDate)
+    {
+      
+    }
     render(){
         return(
-            <>
+          <>
       <Grid container  justify="center"  >
       <Grid item className="container"    >
             <NavBar/>

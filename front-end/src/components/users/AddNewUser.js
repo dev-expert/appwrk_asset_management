@@ -91,14 +91,20 @@ class AddNewUser extends React.Component
                     modifiedDate:this.state.modifiedDate,
                 },
             refetchQueries:[{query:GET_Users}]
-            });
-            this.setState({
-                empId:"",
-                fullName:"",
-                designation:"",
-                message:"New User Added Successfully."
-
+            }).then(()=>{
+                this.setState({
+                    empId:"",
+                    fullName:"",
+                    designation:"",
+                    message:"New User Added Successfully."
+    
+                })
+            }).catch(()=>{
+                this.setState({
+                    message:"Something went wrong!"
+                })
             })
+            
         }
 
     } 
