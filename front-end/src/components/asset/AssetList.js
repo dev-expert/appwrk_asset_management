@@ -19,7 +19,7 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import MenuItem from '@material-ui/core/MenuItem';
 import NavBar from '../../navigation/NavBar';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-
+import EditIcon from '@material-ui/icons/Edit';
 
 
 
@@ -70,30 +70,27 @@ class AssetList extends React.Component
                       {row.status}
                   </Button>
                   </TableCell>
-                  <TableCell align="right">{row.createdBy}</TableCell>
-                  <TableCell align="right">{row.modifiedBy}</TableCell>
-                  <TableCell align="right">{row.createdDate}</TableCell>
-                  <TableCell align="right">{row.modifiedDate}</TableCell>
-                  <TableCell align="right">
-                        <Button
-                            type="submit"
-                            variant="outlined"
-                            color="primary"
-                            onClick={(e)=>{this.editAsset(e,row._id,row.assetName,row.serialNo,row.manufacturer,row.description,row.expiryDate,row.color,row.purchaseDate)}}
-                            >
-                           Edit
-                      </Button>
-                  </TableCell>
-                  <TableCell align="right">
-                      <Button
-                            type="submit"
-                            variant="outlined"
-                            color="secondary"
-                            onClick={(e)=>{this.removeAsset(e,row._id)}}
-                            >
-                           Remove
-                      </Button>
-                    </TableCell>
+                  <TableCell className="item">{row.createdBy}</TableCell>
+                  <TableCell className="item">{row.modifiedBy}</TableCell>
+                  <TableCell className="item">{row.createdDate}</TableCell>
+                  <TableCell className="item">{row.modifiedDate}</TableCell>
+                  <TableCell className="item">
+                 <div style={{display: 'flex'}}>
+                  <EditIcon                      
+                        color="primary"
+                        className="edit_icon"
+                        onClick={(e)=>{this.editAsset(e,row._id,row.assetName,row.serialNo,row.manufacturer,row.description,row.expiryDate,row.color,row.purchaseDate)}}/>
+                        
+                        <DeleteForeverIcon  type="submit"
+                        variant="outlined"
+                        className="delete_icon"
+                        color="secondary"
+                        onClick={(e)=>{this.removeAsset(e,row._id)}}/>
+                        </div> 
+                </TableCell>
+
+                  
+              
                 </TableRow>
               ))
         }
