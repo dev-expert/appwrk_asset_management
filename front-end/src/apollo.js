@@ -10,7 +10,7 @@ import { ApolloClient, ApolloLink, InMemoryCache, HttpLink } from 'apollo-boost'
 const httpLink = new HttpLink({ uri: 'http://localhost:5000/graphql' });
 
 const authLink = new ApolloLink((operation, forward) => {
-  debugger;
+ 
   // Retrieve the authorization token from local storage.
   const token = localStorage.getItem('admintoken');
   if(!!token){

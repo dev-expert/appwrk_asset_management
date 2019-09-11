@@ -12,6 +12,9 @@ import {GET_Users,removeUser} from '../../queries/queries'
 import AddNewUser from '../users/AddNewUser';
 import * as compose from 'lodash.flowright';
 import NavBar from '../../navigation/NavBar';
+import Grid from '@material-ui/core/Grid';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import EditIcon from '@material-ui/icons/Edit';
 
 class ComponentList extends React.Component
 {
@@ -35,40 +38,36 @@ class ComponentList extends React.Component
         else
         {
             return data.users && data.users.map((row, index) => (
-                <TableRow key={row._id}>
-                  <TableCell>{index+1}</TableCell>
-                  <TableCell component="th" scope="row">
+                <TableRow className="tabel_body" key={row._id}>
+                  <TableCell className="item" >{index+1}</TableCell>
+                  <TableCell className="item" component="th" scope="row">
                     {row.empId}
                   </TableCell>
-                  <TableCell component="th" scope="row">
+                  <TableCell className="item"  component="th" scope="row">
                     {row.fullName}
                   </TableCell>
-                  <TableCell component="th" scope="row">
+                  <TableCell className="item" component="th" scope="row">
                     {row.designation}
                   </TableCell>
-                  <TableCell align="right">{row.createdBy}</TableCell>
-                  <TableCell align="right">{row.modifiedBy}</TableCell>
-                  <TableCell align="right">{row.createdDate}</TableCell>
-                  <TableCell align="right">{row.modifiedDate}</TableCell>
-                  <TableCell align="right">
-                      <Button
-                            type="submit"
-                            variant="outlined"
-                            color="primary"
-                            onClick={(e)=>{this.editUser(e,row._id,row.empId,row.fullName,row.designation)}}
-                            >
-                           Edit 
-                      </Button>
-                    </TableCell>
-                    <TableCell align="right">  
-                      <Button
-                            type="submit"
-                            variant="outlined"
-                            color="secondary"
-                            onClick={(e)=>{this.removeUser(e,row._id)}}
-                            >
-                           Remove 
-                      </Button>
+                  <TableCell className="item">{row.createdBy}</TableCell>
+                  <TableCell className="item">{row.modifiedBy}</TableCell>
+                  <TableCell className="item">{row.createdDate}</TableCell>
+                  <TableCell className="item">{row.modifiedDate}</TableCell>
+                  <TableCell align="center">                      
+                      <div style={{display: 'flex'}}>
+                  <EditIcon                      
+                        color="primary"
+                        className="edit_icon"
+                        onClick={(e)=>{this.editUser(e,row._id,row.empId,row.fullName,row.designation)}}/>
+                        
+                        <DeleteForeverIcon  type="submit"
+                        variant="outlined"
+                        className="delete_icon"
+                        color="secondary"
+                        onClick={(e)=>{this.removeUser(e,row._id)}}/>
+                        </div> 
+
+
                     </TableCell>
                 </TableRow>
               ))
@@ -95,25 +94,31 @@ class ComponentList extends React.Component
     render(){
         return(
             <>
+                   <Grid container  justify="center"  >
+      <Grid item className="container"    >
             <NavBar/>
+            </Grid>
+            <Grid item className="container"     >
            <AddNewUser user={this.state}/>
-            <Typography component="h5" variant="h5" color="error">
+           </Grid>
+           <Grid item className="container user_tabel"   >
+            <Typography className="heading_text" component="h5" variant="h5" >
                 Users List
             </Typography>
           <Paper>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Serial No.</TableCell>
-                  <TableCell>Employee ID</TableCell>
-                  <TableCell>Full Name</TableCell>
-                  <TableCell>Designation</TableCell>
-                  <TableCell align="right">Created By</TableCell>
-                  <TableCell align="right">Modified By</TableCell>
-                  <TableCell align="right">Created Date</TableCell>
-                  <TableCell align="right">Modified Date</TableCell>
-                  <TableCell align="right">Action1</TableCell>
-                  <TableCell align="right">Action2</TableCell>
+          <Table className="data">
+        <TableHead className="data_head">
+          <TableRow className="data_row">
+                  <TableCell className="text">Serial No.</TableCell>
+                  <TableCell className="text">Employee ID</TableCell>
+                  <TableCell className="text">Full Name</TableCell>
+                  <TableCell className="text">Designation</TableCell>
+                  <TableCell className="text" >Created By</TableCell>
+                  <TableCell className="text">Modified By</TableCell>
+                  <TableCell className="text">Created Date</TableCell>
+                  <TableCell className="text">Modified Date</TableCell>
+                  <TableCell className="text">Action1</TableCell>
+                  
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -122,6 +127,8 @@ class ComponentList extends React.Component
             </Table>
             
           </Paper>
+          </Grid>
+          </Grid>
            
             </>
           

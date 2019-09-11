@@ -1,0 +1,15 @@
+.navbar_btn button{
+    margin:0 0 0 5px;
+    transition: all 0.5s ease-in-out;
+  }
+  .navbar_btn button:hover{
+    background-color: #0f58a5;
+  }
+ 
+  
+
+  @media only screen and (max-width:869px) {
+    .navbar_btn button{
+        margin:0px 0px 5px 5px;
+      }
+  }
