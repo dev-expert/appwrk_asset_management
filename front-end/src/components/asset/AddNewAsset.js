@@ -34,6 +34,7 @@ class AddNewAsset extends React.Component{
             modifiedDate:date,
             message:"",
             componentId:"",
+            file:null
             
         }
     }
@@ -59,6 +60,7 @@ class AddNewAsset extends React.Component{
     }
     submitAsset=(e)=>{
         e.preventDefault();
+        console.log(this.state)
         this.props.addAssetMutation({
             variables:{
                 assetName:this.state.assetName,
@@ -71,11 +73,13 @@ class AddNewAsset extends React.Component{
                 purchaseCost:parseInt(this.state.purchaseCost),
                 owner:this.state.owner,
                 status:this.state.status,
+                image: this.state.file,
                 createdBy:this.state.createdBy,
                 modifiedBy:this.state.modifiedBy,
                 createdDate:this.state.createdDate,
                 modifiedDate:this.state.modifiedDate,
                 componentId:this.state.componentId,
+               
             },
             refetchQueries:[{query:GET_Assets}]
         });
@@ -118,6 +122,18 @@ class AddNewAsset extends React.Component{
           owner:e.target.value
         })
     }
+
+    getBase64 = (file) => {
+        var _that = this;
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            _that.setState({file : reader.result});
+        };
+        reader.onerror = function (error) {
+          console.log('Error: ', error);
+        };
+     }
     render(){
       return(
         
@@ -256,21 +272,33 @@ class AddNewAsset extends React.Component{
                     onChange={(e)=>{this.setState({status:e.target.value})}}
                 />
                 </Grid>
-                
+                <Grid item xs={12}>
+                  <input
+                        type="file"
+                        required
+                        onChange={(e) =>{
+                            this.getBase64(e.target.files[0]);
+                            //console.log(e.target.files[0])
+                        }
+                          }
+                        
+                      />
+                  </Grid>
 
+                  <Grid item xs={12} sm={4}>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            
+                        >
+                        Add Asset
+                    </Button>
+                 </Grid>
             </Grid>
-            <br/>
-            <Grid item xs={12} sm={4}>
-            <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                
-            >
-                Add Asset
-            </Button>
-            </Grid>
+           
+
             </form>
         </div>
         

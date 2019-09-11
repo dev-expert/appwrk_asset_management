@@ -137,7 +137,7 @@ const addUserMutation = gql`
 `;
 
 const addAssetMutation = gql`
-    mutation($assetName:String!,$serialNo:String!,$manufacturer:String!, $description:String!, $expiryDate:String!, $color:String!, $purchaseDate:String!,$purchaseCost:Int!, $owner:String!, $status:String!, $createdBy:String!,$modifiedBy:String!,$createdDate:String!,$modifiedDate:String!,$componentId:ID!){
+    mutation($assetName:String!,$serialNo:String!,$manufacturer:String!, $description:String!, $expiryDate:String!, $color:String!, $purchaseDate:String!,$purchaseCost:Int!, $owner:String!, $status:String!, $image:String!,$createdBy:String!,$modifiedBy:String!,$createdDate:String!,$modifiedDate:String!,$componentId:ID!){
         addAsset(
             assetName:$assetName,
             serialNo:$serialNo,
@@ -149,6 +149,7 @@ const addAssetMutation = gql`
             purchaseCost:$purchaseCost,
             owner:$owner,
             status:$status,
+            image:$image,
             createdBy:$createdBy,
             modifiedBy:$modifiedBy,
             createdDate:$createdDate,

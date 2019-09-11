@@ -22,6 +22,7 @@ Mongoose.connect("mongodb://localhost:27017/assetdb", { useNewUrlParser: true },
 app.use(cors());
 
 app.use('/graphql',graphqlHTTP({
+  bodyParserOptions: { limit: "10mb", type: "application/json" },
     schema,
     graphiql:true
   }));
